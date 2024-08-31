@@ -1,4 +1,5 @@
-import User from "../models/user.model.js";
+import { User } from "../models/user.model.js";
+import bcryptjs from "bcryptjs";
 
 export async function signup(req, res) {
 	try {
@@ -30,6 +31,9 @@ export async function signup(req, res) {
 			return res.status(400).json({ message: "Username already exists" });
 		}
 
+		const salt = await bcryptjs.genSalt(10);
+		const passwordHash = await bcryptjs.hash(password, salt);
+
 		const PROFILE_PICTURE = ['/avatar1.png', '/avatar2.png', '/avatar3.png'];
 
 		const image = PROFILE_PICTURE[Math.floor(Math.random() * PROFILE_PICTURE.length)];
@@ -37,11 +41,19 @@ export async function signup(req, res) {
 		const newUser = new User({
 			username,
 			email,
-			password,
+			password: passwordHash,
 			image
 		});
 
 		await newUser.save();
+
+		res.status(201).json({
+			success: true,
+			user: {
+				...newUser._doc, // The _doc property contains document fields and values as key-value pairs (e.g., { _id: 123, username: "john_doe", email: "
+				password: undefined // We don't want to send the password back to the client
+			},
+		});
 	}
 	catch (error) {
 		console.error("Error in signup controller:", error.message);
