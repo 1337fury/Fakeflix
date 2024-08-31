@@ -10,7 +10,7 @@ export const generateToken = (userId, res) => {
 		expiresIn: "15d",
 	};
 	const token = jwt.sign(payload, secret, options);
-	res.cookie("fakeflix", token, {
+	res.cookie("fakeflix-token", token, {
 		httpOnly: true,
 		maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
 		sameSite: "strict",
