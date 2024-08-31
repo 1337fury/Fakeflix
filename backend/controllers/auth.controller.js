@@ -68,5 +68,12 @@ export async function signin(req, res) {
 }
 
 export async function signout(req, res) {
-	res.send("Signout route");
+	try {
+		res.clearCookie("fakeflix");
+		res.status(200 ).json({ success: true, message: "Signout success" });
+	}
+	catch (error) {
+		console.error("Error in signout controller:", error.message);
+		res.status(500).json({ success: false, message: "Internal server error" });
+	}
 }
