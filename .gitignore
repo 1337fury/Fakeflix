@@ -1,0 +1,25 @@
+echo "# Fakeflix" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/1337fury/Fakeflix.git
+git push -u origin main
+
+# Node.js specific files
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+.DS_Store
+
+# Environment variables
+.env
+.env.test
+.env.production
+
+.vscode/
+
+/history
