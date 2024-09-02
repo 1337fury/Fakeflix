@@ -1,15 +1,17 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { ChevronRight } from 'lucide-react'
 
 export default function AuthScreen() {
 
 	const [email, setEmail] = useState('')
+	const navigate = useNavigate()
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		console.log(email)
+		navigate('/signup?email=' + email);
 	}
 
 	return (

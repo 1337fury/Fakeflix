@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const SignupPage = () => {
 
@@ -12,6 +12,14 @@ const SignupPage = () => {
 		e.preventDefault();
 		console.log({email, username, password});
 	}
+
+	useEffect(() => {
+		const queryParams = new URLSearchParams(window.location.search);
+		const emailFormUrl = queryParams.get('email');
+		if (emailFormUrl) {
+			setEmail(emailFormUrl);
+		}
+	}, []);
 
 	return (
 		<div className="h-screen w-full hero-bg">
