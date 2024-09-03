@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { ChevronRight } from 'lucide-react';
 
 export default function AuthScreen() {
 
