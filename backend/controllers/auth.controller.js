@@ -101,7 +101,7 @@ export async function signin(req, res) {
 
 export async function signout(req, res) {
 	try {
-		res.clearCookie("fakeflix");
+		res.clearCookie("fakeflix-token");
 		res.status(200 ).json({ success: true, message: "Signout success" });
 	}
 	catch (error) {
