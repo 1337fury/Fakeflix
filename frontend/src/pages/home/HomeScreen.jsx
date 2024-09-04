@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuthStore } from '../../store/authUser';
 import Navbar  from '../../components/Navbar';
 import { Play, Info } from 'lucide-react';
 import useTrContent from '../../hooks/useTrContent';
 import { ORIGINAL_IMG_BASE_URL } from '../../utils/constants';
+import MovieSlider from '../../components/MovieSlider';
+import { MOVIE_CATEGORIES, TV_CATEGORIES } from '../../utils/constants';
+import { useContentStore } from '../../store/content';
+import { useEffect } from 'react';
 
 export default function HomeScreen() {
-	const { Logout } = useAuthStore();
 	const { trendingContent } = useTrContent();
+	const { contentType } = useContentStore();
+
+	const [isLoaded, setIsLoaded] = useState(false);
 
 	if (!trendingContent)
 		return (
@@ -23,9 +28,15 @@ export default function HomeScreen() {
 			<div className='relative h-screen w-full text-white'>
 				<Navbar />
 
+				{!isLoaded && (
+					<div className='absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer' />
+				)};
+
 				<img src={ORIGINAL_IMG_BASE_URL + trendingContent?.backdrop_path} 
 					alt='Hero Background' 
-				    className='absolute top-0 left-0 w-full h-full object-cover -z-50 ' />
+				    className='absolute top-0 left-0 w-full h-full object-cover -z-50 ' 
+					onLoad={() => setIsLoaded(true)}
+				/>
 
 				<div className='absolute top-0 left-0 w-full h-full bg-black/50 -z-50' aria-hidden="true" />
 
@@ -67,6 +78,12 @@ export default function HomeScreen() {
 
 				</div>
 
+			</div>
+
+			<div className='flex flex-col gap-10 bg-black py-10'>
+				{contentType === "movie"
+					? MOVIE_CATEGORIES.map((category) => <MovieSlider key={category} category={category} />)
+					: TV_CATEGORIES.map((category) => <MovieSlider key={category} category={category} />)}
 			</div>
 		</>
 	)
