@@ -24,7 +24,7 @@ export const getTvTrailers = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`);
 
-		res.status(200).json({ success: true, trailer: data.results });
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Trailer not found" });
@@ -39,7 +39,7 @@ export const getTvDetails = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}?language=en-US`);
 
-		res.status(200).json({ success: true, details: data });
+		res.status(200).json({ success: true, content: data });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Tv not found" });
@@ -54,7 +54,7 @@ export const getSimilarTvs = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}/similar?language=en-US`);
 
-		res.status(200).json({ success: true, movies: data.results });
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Tvs not found" });
@@ -69,7 +69,7 @@ export const getTvsByCategory = async (req, res) => {
 		const { category } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`);
 
-		res.status(200).json({ success: true, movies: data.results });
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Tvs not found" });
