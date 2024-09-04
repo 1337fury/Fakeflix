@@ -24,7 +24,7 @@ export const getMovieTrailers = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`);
 
-		res.status(200).json({ success: true, trailer: data.results });
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Trailer not found" });
@@ -39,7 +39,7 @@ export const getMovieDetails = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/movie/${id}?language=en-US`);
 
-		res.status(200).json({ success: true, details: data });
+		res.status(200).json({ success: true, content: data });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Movie not found" });
@@ -54,7 +54,7 @@ export const getSimilarMovies = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/movie/${id}/similar?language=en-US`);
 
-		res.status(200).json({ success: true, movies: data.results });
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Movies not found" });
@@ -69,7 +69,14 @@ export const getMoviesByCategory = async (req, res) => {
 		const { category } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/movie/${category}?language=en-US&page=1`);
 
-		res.status(200).json({ success: true, movies: data.results });
+		const idsToExclude = [1096342];
+
+		data.results = data.results.filter((movie) => 
+			!movie?.adult && 
+			!idsToExclude.includes(movie?.id)
+		);
+
+		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Movies not found" });
