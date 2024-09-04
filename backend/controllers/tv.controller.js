@@ -3,9 +3,16 @@ import { getFromIMDB } from "../services/tmdb.service.js";
 export const getTrendingTv = async (req, res) => {
 	try {
 		const data = await getFromIMDB("https://api.themoviedb.org/3/trending/tv/day?language=en-US");
+		const idsToExclude = [223397];
+
+		data.results = data.results.filter((tv) => 
+			!tv?.adult && 
+			!idsToExclude.includes(tv?.id)
+		);
+
 		const ranomTv = data.results[Math.floor(Math.random() * data.results.length)];
 
-		res.status(200).json({ success: true, tv: ranomTv });
+		res.status(200).json({ success: true, content: ranomTv });
 	} catch (error) {
 		console.error("Error in getTrendingTvs controller:", error.message);
 		res.status(500).json({ success: false, message: "Internal server error" });
