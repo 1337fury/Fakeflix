@@ -11,7 +11,7 @@ import { Loader } from "lucide-react";
 
 function App() {
 	const { user, isCheckingAuth, authCheck } = useAuthStore();
-	console.log(user);
+
 	useEffect(() => {
 		authCheck();
 	}, [authCheck]);

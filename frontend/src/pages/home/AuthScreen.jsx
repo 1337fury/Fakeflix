@@ -10,7 +10,6 @@ export default function AuthScreen() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		console.log(email)
 		navigate('/signup?email=' + email);
 	}
 
