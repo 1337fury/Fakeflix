@@ -27,8 +27,6 @@ const MovieSlider = ({ category }) => {
 	useEffect(() => {
 		const getContent = async () => {
 			const res = await axios.get(`/api/v1/${contentType}/${category}`);
-			console.log(`/api/v1/${contentType}/${category}`);
-			console.log(res.data.content);
 			setContent(res.data.content);
 		};
 		getContent();
@@ -44,15 +42,23 @@ const MovieSlider = ({ category }) => {
 				{formatedCategory} {formatedContentType}
 			</h2>
 
-			<div className='flex space-x-4 overflow-x-scroll scrollbar-hide' ref={sliderRef}>
+			<div className='flex space-x-4 overflow-x-scroll hide-scrollbar' ref={sliderRef}>
 				{content.map((item) => (
 					<Link to={`/watch/${item.id}`} className='min-w-[250px] relative group' key={item.id}>
 						<div className='rounded-lg overflow-hidden'>
-							<img
-								src={SMALL_IMG_BASE_URL + item.backdrop_path}
-								alt='Movie image'
-								className='transition-transform duration-300 ease-in-out group-hover:scale-125'
-							/>
+							{item.backdrop_path ? (
+								<img
+									src={SMALL_IMG_BASE_URL + item.backdrop_path}
+									alt='Movie image'
+									className='transition-transform duration-300 ease-in-out group-hover:scale-125'
+								/>
+							) : (
+								<img
+									src='/image-not-found.png'
+									alt='Movie image'
+									className='transition-transform duration-300 ease-in-out group-hover:scale-125'
+								/>
+							)}
 						</div>
 						<p className='mt-2 text-center'>{item.title || item.name}</p>
 					</Link>
