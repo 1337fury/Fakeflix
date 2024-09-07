@@ -112,7 +112,19 @@ export async function signout(req, res) {
 
 export async function authCheck(req, res) {
 	try {
-		res.status(200).json({ success: true, user: req.user });
+		const user = await User.findById(req.user._id);
+
+		if (!user) {
+			return res.status(404).json({ success: false, message: "User not found" });
+		}
+		
+		res.status(200).json({
+			success: true,
+			user: {
+				...user._doc,
+				password: undefined
+			},
+		});
 	} catch (error) {
 		console.error("Error in authCheck controller:", error.message);
 		res.status(500).json({ success: false, message: "Internal server error" });
