@@ -43,7 +43,7 @@ const MovieSlider = ({ category }) => {
 			</h2>
 
 			<div className='flex space-x-4 overflow-x-scroll hide-scrollbar' ref={sliderRef}>
-				{content.map((item) => (
+				{content.length === 0 ? null : content.map((item) => (
 					<Link to={`/watch/${item.id}`} className='min-w-[250px] relative group' key={item.id}>
 						<div className='rounded-lg overflow-hidden'>
 							{item.backdrop_path ? (
