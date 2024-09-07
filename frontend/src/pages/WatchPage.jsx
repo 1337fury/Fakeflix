@@ -99,7 +99,7 @@ const WatchPage = () => {
 
 	return (
 		<div className="bg-black min-h-screen text-white">
-			<div className="mx-auto container px-4 py-8 h-full">
+			<div className="mx-auto container px-4 pb-8 pt-1 h-full">
 				<Navbar />
 
 				{trailers.length > 0 && (
@@ -173,7 +173,7 @@ const WatchPage = () => {
 						<h3 className='text-3xl font-bold mb-4'>Similar Movies/Tv Show</h3>
 
 						<div className='flex overflow-x-scroll hide-scrollbar gap-4 pb-4 group' ref={sliderRef}>
-							{similar.map((details) => {
+							{similar.length === 0 ? null : similar.map((details) => {
 								if (details.poster_path === null) return null;
 								return (
 									<Link key={details.id} to={`/watch/${details.id}`} className='w-52 flex-none'>
