@@ -1,18 +1,22 @@
 import { getFromIMDB } from "../services/tmdb.service.js";
-import { IDS_TO_EXCULDE } from "../../frontend/src/utils/constants.js";
+import { IDS_TO_EXCULDE } from "../utils/constants.js";
+import { filterContent } from "../utils/helpers.js";
 
 export const getTrendingTv = async (req, res) => {
 	try {
 		const data = await getFromIMDB("https://api.themoviedb.org/3/trending/tv/day?language=en-US");
 
-		data.results = data.results.filter((tv) => 
-			!tv?.adult && 
-			!IDS_TO_EXCULDE.includes(tv?.id)
-		);
+		if (data.results.length > 0) {
+			const filteredResults = filterContent(data.results);
+	  
+			if (filteredResults.length === 0)
+				return res.status(404).json({ success: false, message: "No appropriate tv found" });
 
-		const ranomTv = data.results[Math.floor(Math.random() * data.results.length)];
+			const randomTv = filteredResults[Math.floor(Math.random() * filteredResults.length)];
 
-		res.status(200).json({ success: true, content: ranomTv });
+			res.status(200).json({ success: true, content: randomTv });
+		} else
+			res.status(404).json({ success: false, message: "Tv not found" });
 	} catch (error) {
 		console.error("Error in getTrendingTvs controller:", error.message);
 		res.status(500).json({ success: false, message: "Internal server error" });
