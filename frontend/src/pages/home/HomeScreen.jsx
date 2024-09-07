@@ -7,7 +7,6 @@ import { ORIGINAL_IMG_BASE_URL } from '../../utils/constants';
 import MovieSlider from '../../components/MovieSlider';
 import { MOVIE_CATEGORIES, TV_CATEGORIES } from '../../utils/constants';
 import { useContentStore } from '../../store/content';
-import { useEffect } from 'react';
 
 export default function HomeScreen() {
 	const { trendingContent } = useTrContent();
