@@ -1,32 +1,40 @@
-import { KEYWORDS, IDS_TO_EXCULDE } from './constants.js';
+import { Keyword } from "../models/filter.model.js";
+import { Exclusion } from "../models/filter.model.js";
 
-const filterContent = (content) => {
-  return content.filter(item => {
-    const title = (item.title || item.name || item.original_name || '').toLowerCase();
-    const overview = (item.overview || '').toLowerCase();
+const filterContent = async (content) => {
 
-    if (!title || !overview) {
-      return false;
-    }
+	let KEYWORDS = await Keyword.findOne({ name: 'KEYWORDS' }) || [];
+	let IDS_TO_EXCLUDE = await Exclusion.findOne({ name: 'IDS_TO_EXCLUDE' }) || [];
 
-    if (item.original_language === 'ja' || item.original_language === 'fr') {
-      return false;
-    }
+	const words = KEYWORDS.words || [];
+	const ids = IDS_TO_EXCLUDE.ids || [];
 
-    for (const keyword of KEYWORDS) {
-      if (title.includes(keyword) || 
-          overview.includes(keyword) || 
-          IDS_TO_EXCULDE.includes(item.id)) {
-        return false;
-      }
-    }
+	return content.filter(item => {
+		const title = (item.title || item.name || item.original_name || '').toLowerCase();
+		const overview = (item.overview || '').toLowerCase();
 
-    if (item.adult) {
-      return false;
-    }
+		if (!title || !overview) {
+			return false;
+		}
 
-    return true;
-  });
+		if (item.original_language === 'ja' || item.original_language === 'fr') {
+			return false;
+		}
+
+		for (const word of words) {
+			if (title.includes(word) || 
+				overview.includes(word) || 
+				ids.includes(item.id)) {
+				return false;
+			}
+		}
+
+		if (item.adult) {
+			return false;
+		}
+
+		return true;
+	});
 }
 
 export { filterContent };
