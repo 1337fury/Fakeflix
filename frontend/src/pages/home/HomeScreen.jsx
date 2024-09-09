@@ -29,7 +29,7 @@ export default function HomeScreen() {
 
 				{!isLoaded && (
 					<div className='absolute top-0 left-0 w-full h-full bg-black/70 flex items-center justify-center -z-10 shimmer' />
-				)};
+				)}
 
 				<img src={ORIGINAL_IMG_BASE_URL + trendingContent?.backdrop_path} 
 					alt='Hero Background' 
