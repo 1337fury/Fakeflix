@@ -29,5 +29,21 @@
 	  -ms-overflow-style: none; /* For Internet Explorer and Edge */
 	  scrollbar-width: none;    /* For Firefox */
 	}
-  }
+}
   
+.error-page--content::before {
+	background: radial-gradient(
+		ellipse at center,
+		rgba(0, 0, 0, 0.5) 0,
+		rgba(0, 0, 0, 0.2) 45%,
+		rgba(0, 0, 0, 0.1) 55%,
+		transparent 70%
+	);
+	bottom: -10vw;
+	content: "";
+	left: 10vw;
+	position: absolute;
+	right: 10vw;
+	top: -10vw;
+	z-index: -1;
+}
