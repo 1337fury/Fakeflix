@@ -46,4 +46,5 @@
 	right: 10vw;
 	top: -10vw;
 	z-index: -1;
+	max-height: 100vh;
 }
