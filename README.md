@@ -2,6 +2,8 @@
 
 Welcome to the **Fakeflix** project! This application is designed to replicate the functionality of Netflix using the MERN stack. Below, you'll find detailed information about the project, its features, setup instructions, and more.
 
+<img src="https://dl.dropbox.com/scl/fi/ei7yabda77z4ft3qfes77/home-page.png?rlkey=5x8jrpp5qgxrxh59r3gvw724f&st=74w23oco&dl=0" />
+
 ---
 
 ## Table of Contents
@@ -14,7 +16,6 @@ Welcome to the **Fakeflix** project! This application is designed to replicate t
 	- [Setup Instructions](#setup-instructions)
 	- [Run the Application](#run-the-application)
 	- [Screenshots](#screenshots)
-	- [License](#license)
 
 ---
 
@@ -100,16 +101,16 @@ To run the application locally, execute the following commands:
 
 ## Screenshots
 
-Home Page
+Categories
 
-Search Page
+<img src="https://dl.dropbox.com/scl/fi/pu7bj8zz5crjyrhnlooty/sliders-min.png?rlkey=40hj6usxcq3vfj2hqg59gpmhc&st=cmz33rnz&dl=0" />
 
-Watch Page
+Movies Search Page
 
----
+<img src="https://dl.dropbox.com/scl/fi/0eb62t7lvl9xr2q6t9w7e/movie-search.png?rlkey=cn8mdsaohvrxuptur1bjbi290&st=6xdjjdll&dl=0" />
 
-## License
+Person Search Page
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+<img src="https://dl.dropbox.com/scl/fi/rhg3lnmedtnmfynherenq/person-search.png?rlkey=p7pzuyo8mdk2gsj7thrlrfl9x&st=n7k5xh5i&dl=0" />
 
 ---
