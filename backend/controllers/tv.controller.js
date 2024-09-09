@@ -1,5 +1,4 @@
 import { getFromIMDB } from "../services/tmdb.service.js";
-import { IDS_TO_EXCULDE } from "../utils/constants.js";
 import { filterContent } from "../utils/helpers.js";
 
 export const getTrendingTv = async (req, res) => {
@@ -7,7 +6,7 @@ export const getTrendingTv = async (req, res) => {
 		const data = await getFromIMDB("https://api.themoviedb.org/3/trending/tv/day?language=en-US");
 
 		if (data.results.length > 0) {
-			const filteredResults = filterContent(data.results);
+			const filteredResults = await filterContent(data.results);
 	  
 			if (filteredResults.length === 0)
 				return res.status(404).json({ success: false, message: "No appropriate tv found" });
@@ -28,10 +27,6 @@ export const getTvTrailers = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}/videos?language=en-US`);
 
-		if (IDS_TO_EXCULDE.includes(data.id)) {
-			return res.status(404).json({ success: false, message: "Tv not found" });
-		}
-
 		res.status(200).json({ success: true, content: data.results });
 	} catch (error) {
 		if (error.response.status === 404) {
@@ -46,10 +41,6 @@ export const getTvDetails = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}?language=en-US`);
-
-		if (IDS_TO_EXCULDE.includes(data.id)) {
-			return res.status(404).json({ success: false, message: "Tv not found" });
-		}
 
 		res.status(200).json({ success: true, content: data });
 	} catch (error) {
@@ -66,12 +57,15 @@ export const getSimilarTvs = async (req, res) => {
 		const { id } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${id}/similar?language=en-US`);
 
-		data.results = data.results.filter((tv) => 
-			!tv?.adult && 
-			!IDS_TO_EXCULDE.includes(tv?.id)
-		);
+		if (data.results.length > 0) {
+			const filteredResults = await filterContent(data.results);
+	  
+			if (filteredResults.length === 0)
+				return res.status(404).json({ success: false, message: "No appropriate tvs found" });
 
-		res.status(200).json({ success: true, content: data.results });
+			return res.status(200).json({ success: true, content: filteredResults });
+		} else
+			return res.status(404).json({ success: false, message: "Tv not found" });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Tvs not found" });
@@ -86,12 +80,15 @@ export const getTvsByCategory = async (req, res) => {
 		const { category } = req.params;
 		const data = await getFromIMDB(`https://api.themoviedb.org/3/tv/${category}?language=en-US&page=1`);
 
-		data.results = data.results.filter((tv) => 
-			!tv?.adult && 
-			!IDS_TO_EXCULDE.includes(tv?.id)
-		);
+		if (data.results.length > 0) {
+			const filteredResults = await filterContent(data.results);
+	  
+			if (filteredResults.length === 0)
+				return res.status(404).json({ success: false, message: "No appropriate tvs found" });
 
-		res.status(200).json({ success: true, content: data.results });
+			return res.status(200).json({ success: true, content: filteredResults });
+		} else
+			return res.status(404).json({ success: false, message: "Tv not found" });
 	} catch (error) {
 		if (error.response.status === 404) {
 			return res.status(404).json({ success: false, message: "Tvs not found" });

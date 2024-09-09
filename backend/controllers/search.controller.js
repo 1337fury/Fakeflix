@@ -44,7 +44,7 @@ export const searchMovie = async (req, res) => {
 	
 		if (data.results.length > 0) {
 		  // Filter out movies with adult content and apply additional filtering
-		  const filteredResults = filterContent(data.results);
+		  const filteredResults = await filterContent(data.results);
 	
 		  if (filteredResults.length === 0)
 			return res.status(404).json({ success: false, message: "No appropriate movies found" });
@@ -82,7 +82,7 @@ export const searchTv = async (req, res) => {
     const data = await getFromIMDB(`https://api.themoviedb.org/3/search/tv?query=${query}&include_adult=false&language=en-US`);
 
     if (data.results.length > 0) {
-      const filteredResults = filterContent(data.results);
+      const filteredResults = await filterContent(data.results);
 
       if (filteredResults.length === 0)
         return res.status(404).json({ success: false, message: "No appropriate TV shows found" });
