@@ -31,7 +31,7 @@ export const useAuthStore = create((set) => ({
 			toast.error(error.response.data.message || 'Something went wrong');
 		}
 	},
-	Logout: async () => {
+	logout: async () => {
 		try {
 			await axios.post('/api/v1/auth/signout');
 			set({ user: null });
