@@ -15,3 +15,11 @@ yarn.lock
 .vscode/
 
 /history
+
+backend/scripts
+
+# production build
+build/
+
+# local build
+dist/
